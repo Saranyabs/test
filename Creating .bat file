@@ -1,0 +1,12 @@
+
+Creating .bat file for running selenium server
+
+
+Step 1: Create a new text file
+Step 2: Open the file and type in following code into it (D:\Workspace-Helios should be changed to the path where selenium-server.jar file is copied) 
+CD D:\Workspace-Helios
+java -jar selenium-server.jar -multiWindow
+(Don’t copy and paste as sometime it adds some special characters)
+Step 3: Save it as “Selenium-server.bat”
+Step 4: Still if you are not able to run, then execute both the commands in command prompt (Click Start -> Run ->cmd). If it is throwing any errors please let me know.
+
