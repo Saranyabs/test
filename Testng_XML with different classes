@@ -1,0 +1,48 @@
+
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+ 
+<suite name="rSmart CLE Test Suite" verbose="10">
+   <parameter name="webSite" value="http://testserver.com:8080/xsl-portal"/>
+   <parameter name="seleniumHost" value="localhost"/>
+   <parameter name="seleniumPort" value="4444"/>
+   <parameter name="browser" value="*firefox"/>
+   <parameter name="timeout" value="10000"/>
+   <parameter name="fileServer" value="http://testserver.com/selenium/TestingData/" />
+ 
+   <test name="Sakai Regression Test: Create Users">
+      <classes>
+         <class name="org.sakaiproject.test.DevUSERS01"/>
+      </classes>
+   </test>
+ 
+   <test name="Sakai Regression Test: Create Sites">
+      <classes>
+         <class name="org.sakaiproject.test.DevSS01"/>
+      </classes>
+   </test>
+ 
+ 
+   <test name="Sakai Regression Tests: Tools">
+      <groups>
+         <run><include name="Sakai-Reg-Suite"/></run>
+      </groups>
+      <packages>
+         <package name="org.sakaiproject.test"/>
+      </packages>
+   </test>
+ 
+ 
+   <test name="Sakai Regression Test: Delete Sites">
+      <classes>
+         <class name="org.sakaiproject.DevDELETESITES"/>
+      </classes>
+   </test>
+ 
+   <test name="Sakai Regression Test: Delete Users">
+      <classes>
+         <class name="org.sakaiproject.test.DevDELETEUSERS"/>
+      </classes>
+   </test>
+ 
+ 
+</suite>
