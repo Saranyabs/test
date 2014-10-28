@@ -1,0 +1,4 @@
+<methods>
+        <include name="testTestAbout" />
+          <exclude name="testNGDemo" />
+           </methods>
