@@ -1,0 +1,81 @@
+
+
+Annotations in TestNG
+
+TestNG (Next Generation Testing Framework) – Understanding Annotations
+by seetaram on January 14, 2012
+Annotation:
+Annotation defines a type and it can be applied to several Java elements such as Java methods, classes, etc.  Annotation adds meta-data facility to Java elements.  Some examples of Java built-in annotations are:
+1.	@Override
+2.	@Deprecated
+3.	@SuppressWarnings
+Each annotation will instruct the compiler to do something. For example, @Override tells the compiler to check whether the parent class contains the same method (also checks whether the overriding method follows all the rules correctly).
+Let us have a look at TestNG annotations.
+1.	@BeforeSuite
+2.	@AfterSuite
+3.	@BeforeTest
+4.	@AfterTest
+5.	@BeforeGroups
+6.	@AfterGroups
+7.	@BeforeClass
+8.	@AfterClass
+9.	@BeforeMethod
+10.	@AfterMethod 
+11.	@DataProvider
+12.	@Factory
+13.	@Listeners
+14.	@Parameters
+15.	@Test
+Out of these annotations, we will try to understand only “@Test, @BeforeClass, @AfterClass, @BeforeMethod, @AfterMethod”.
+Every Java application should contain “main” method and the execution of the entire project starts from “main” method. With using TestNG as a testing framework, there is no need to use “main” method. The execution will be handled by the TestNG (testing framework).
+@Test
+If a Java method marked with @Test, then the compiler understands that the method is a “Test Method”.
+@BeforeClass
+A Java method marked with @BeforeClass annotation will be executed before executing all the methods in the class. This annotation can be used to make sure that the configuration or some precondition for entire set of “test methods” inside the class will be executed before all the methods.
+@AfterClass
+A Java method marked with @AfterClass annotation will be executed after executing all the methods in the class. Hence, this annotation helps in executing a particular set of actions that needs to be done after executing all the “test methods” in the class.
+@BeforeMethod – Execute the method just before executing any test method in the class.
+@AfterMethod – Execute the method after executing every test method in the class.
+Now, open Eclipse IDE and create a .Java file and use the following code.
+package com.selftechy.testng;
+
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+public class tngAnnotations {
+
+	@BeforeClass
+	public void beforeClass(){
+		System.out.println("In BeforeClass");
+	}
+
+	@BeforeMethod
+	public void beforeMethod(){
+		System.out.println("In BeforeMethod");
+	}
+
+	@Test
+	public void testOne(){
+		System.out.println("In TestOne");
+	}
+
+	@Test
+	public void testTwo(){
+		System.out.println("In TestTwo");
+	}
+
+	@AfterMethod
+	public void afterMethod(){
+		System.out.println("In AfterMethod");
+	}
+
+	@AfterClass
+	public void afterClass(){
+		System.out.println("In AfterClass");
+	}
+
+}
+ 
