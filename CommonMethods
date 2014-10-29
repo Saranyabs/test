@@ -1,0 +1,284 @@
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Properties;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
+
+import jxl.Cell;
+import jxl.Sheet;
+import jxl.Workbook;
+import jxl.read.biff.BiffException;
+import jxl.write.Label;
+import jxl.write.WritableSheet;
+import jxl.write.WritableWorkbook;
+import jxl.write.WriteException;
+import jxl.write.biff.RowsExceededException;
+
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.Alert;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoAlertPresentException;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.NoSuchWindowException;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
+import org.openqa.selenium.support.ui.Select;
+public class CommonMethods {
+
+	WebDriver driver;
+	int i,j;
+	String input;
+	
+	public static Properties CONFIG;
+	
+	public static void configFileOpen() throws IOException {
+		FileInputStream fs = new FileInputStream("C:\\Users\\saranya.b\\workspace\\Selenium\\src\\config\\config.properties");
+		CONFIG= new Properties();
+		CONFIG.load(fs);		
+		}
+	public void invokeApp(WebDriver driver, String url) throws IOException{
+	
+	try {
+		driver.manage().window().maximize();
+		driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
+		this.driver = driver;
+		driver.get(url);
+	} catch (WebDriverException e1) {
+		System.out.println("WebDriver Exception occured during browser launch");
+	}catch (Exception e2){
+		System.out.println(" Java Exception occured during browser launch");
+	}finally {
+		takeSnap();
+	}
+	}
+	public void setValueByID(String id,String val) throws IOException{
+		try {
+			driver.findElement(By.id(id)).sendKeys(val);
+		} catch (NoSuchElementException e3) {
+		System.out.println("The Element is not found"+id);
+		}catch(WebDriverException e4){
+			System.out.println("Webdriver Exception has occured while sending value by ID");
+		}catch(Exception e5){
+			System.out.println("Java Exception occured while sending value by ID");		
+		}finally{
+			takeSnap();
+		}
+	}
+	public void setValueByName(String name,String val) throws IOException{
+		try {
+			driver.findElement(By.name(name)).sendKeys(val);
+		} catch (NoSuchElementException e6) {
+		System.out.println("The Element is not found"+name);
+		}catch(WebDriverException e7){
+			System.out.println("Webdriver Exception has occured while sending value by name");
+		}catch(Exception e8){
+			System.out.println("Java Exception occured while sending value by name");		
+		}finally{
+			takeSnap();
+		}
+	}
+	public void clickbyLinktext(String linktext){
+		
+		try {
+			driver.findElement(By.linkText(linktext)).click();
+		} catch (NoSuchElementException e9) {
+			System.out.println(" There is no such link found"+linktext);
+		}catch (WebDriverException e10){
+		System.out.println("Webdriver Exception occured while clicking the link");
+		}catch (Exception e11){
+			System.out.println("Java Exception occured while clicking the link");
+		}
+	}
+	public void clickByPartiallinktext(String partialtext){
+		try {
+			driver.findElement(By.partialLinkText(partialtext)).click();
+		} catch (NoSuchElementException e12) {
+			System.out.println(" There is no such link found"+partialtext);
+		}catch (WebDriverException e13){
+		System.out.println("Webdriver Exception occured while clicking the partial link text");
+		}catch (Exception e14){
+			System.out.println("Java Exception occured while clicking the partial link text");
+		}
+	}
+	public void takeSnap() throws IOException{
+		try {
+			i++;
+			File test = ((TakesScreenshot) driver)
+					.getScreenshotAs(OutputType.FILE);
+			FileUtils.copyFile(test, new File("D:\\Testname" + i + ".jpg"));
+			
+		} catch (WebDriverException e15) {
+			System.out.println(" Webdriver exception occured while taking snapshot");
+		}catch(Exception e16){
+			System.out.println(" Java Exception occured while taking snapshot");
+		}
+	}
+	public void clickByID(String id){
+		try {
+			driver.findElement(By.id(id)).click();
+		} catch (NoSuchElementException e12) {
+			System.out.println(" There is no such link found"+id);
+		}catch (WebDriverException e13){
+		System.out.println("Webdriver Exception occured while clicking the element by id");
+		}catch (Exception e14){
+			System.out.println("Java Exception occured while clicking the element by id");
+		}
+	}
+	public void clickByName(String name){
+		try {
+			driver.findElement(By.name(name)).click();
+		} catch (NoSuchElementException e12) {
+			System.out.println(" There is no such link found"+name);
+		}catch (WebDriverException e13){
+		System.out.println("Webdriver Exception occured while clicking the element by name");
+		}catch (Exception e14){
+			System.out.println("Java Exception occured while clicking the element by name");
+		}		
+	}
+	public void multiplewindow() throws IOException{
+		try {
+			Set<String> winhandle = driver.getWindowHandles();
+			for (String handle : winhandle) {
+				driver.switchTo().window(handle);
+			}
+		//i = winhandle.size();
+		
+		} catch (NoSuchWindowException e17) {
+			System.out.println("The expected window is not present");
+		}catch(WebDriverException e){
+			System.out.println("Webdriver exception occured during window handle");
+		}catch( Exception e18){
+			System.out.println("Java Exception occured during window handle");
+		}finally{
+			takeSnap();
+		}
+		//return i;
+	}
+	public void selectfromDropdownByVisibleText(int num,String element,String visibleText){
+		try {
+	
+			if (num == 1){
+				Select dropdownvalue = new Select(driver.findElement(By.id(element)));
+				dropdownvalue.selectByVisibleText(visibleText);	
+			}
+			if (num == 2){
+				
+				Select dropdownvalue = new Select(driver.findElement(By.name(element)));
+				dropdownvalue.selectByVisibleText(visibleText);	
+			}
+				if (num == 3){
+				Select dropdownvalue = new Select(driver.findElement(By.className(element)));
+				dropdownvalue.selectByVisibleText(visibleText);	
+			}
+				if (num == 4){
+					Select dropdownvalue = new Select(driver.findElement(By.xpath(element)));
+					dropdownvalue.selectByVisibleText(visibleText);	
+				}
+		} catch (NoSuchElementException e) {
+			System.out.println("No such element found to select from dropdown");
+		}	catch(WebDriverException e){
+			System.out.println("Webdriver exception happened while selecting a value from the drop down by visible text");
+		}catch(Exception e){
+			System.out.println("Java exception happened while selecting a value from the drop down by visible text");
+		}
+	}
+	public void selectfromDropdownByIndex(String element,int index){
+		try {
+			if (element == "id"){
+				Select dropdownvalue = new Select(driver.findElement(By.id(element)));
+				dropdownvalue.selectByIndex(index);
+			}
+			if (element == "name"){
+				
+				Select dropdownvalue = new Select(driver.findElement(By.name(element)));
+				dropdownvalue.selectByIndex(index);
+			}
+				if (element == "classname"){
+				Select dropdownvalue = new Select(driver.findElement(By.className(element)));
+				dropdownvalue.selectByIndex(index);	
+			}
+				if (element == "xpath"){
+					Select dropdownvalue = new Select(driver.findElement(By.xpath(element)));
+					dropdownvalue.selectByIndex(index);
+				}
+		} catch (NoSuchElementException e) {
+			System.out.println("There is no such element found to select from drop down");
+		}catch(WebDriverException e){
+			System.out.println("Webdriver exception happened while selecting a value from the drop down by index");
+		}catch(Exception e){
+			System.out.println("Java exception happened while selecting a value from the drop down by index");
+		}
+		}	
+	public void alertHandle(String action){
+		try {
+			Alert a = driver.switchTo().alert();
+			
+			if (action == "accept")
+			{
+			a.accept();
+			}
+			if (action == "dismiss"){
+				
+				a.dismiss();
+			}
+			if (action == "readtext"){
+					
+			a.getText();
+			}
+		} catch (NoAlertPresentException e) {
+			System.out.println("There is no such alert present");
+		}catch(WebDriverException e){
+			System.out.println("WebdriverException happened during alert handling");
+		}catch(Exception e){
+			System.out.println("Java Exception happened during alert handling");
+		}
+	}
+	public void quitbrowser() throws IOException
+	{
+		try {
+			driver.quit();
+		} catch (WebDriverException e19) {
+			System.out.println("Webdriver Exception occured while closing the browser");
+		}catch( Exception e20){
+			System.out.println(" Java Exception occured while closing the browser");
+		}		
+	}
+	public void reportStep(String fileName,String status, String sheetName,int position,int col,int row) throws IOException, RowsExceededException, WriteException{
+		try {
+			WritableWorkbook wb = Workbook.createWorkbook(new File(fileName));
+			WritableSheet ws = wb.createSheet(sheetName,position);
+			Label l1 = new Label (col,row,status);
+			ws.addCell(l1);
+			wb.write();
+			wb.close();
+		} catch (WebDriverException e) {
+			System.out.println("Webdriver Exception occured during Excel write");
+		}catch(Exception e){
+			System.out.println("Java Exception occured during Excel write");
+		}
+	}
+	public void selectByCss(){
+		driver.findElement(By.cssSelector("//div//a"));
+		
+	}
+	public String readFromExcel(int col,int row,String fileName, String sheetName) throws BiffException, IOException{
+		try {
+			Workbook wwb = Workbook.getWorkbook(new File(fileName));
+			Sheet wws = wwb.getSheet(sheetName);
+			Cell c1 = wws.getCell(col, row);
+			input = c1.getContents();
+			} catch (WebDriverException e) {
+			System.out.println("Webdriver exception happened during File Read from Excel");
+		}catch (Exception e)
+		{
+			System.out.println("Java Exception happened during File read using Java");
+			e.printStackTrace();
+		}
+		return input;	
+		}	
+}
